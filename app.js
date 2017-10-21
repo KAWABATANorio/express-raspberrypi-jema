@@ -8,7 +8,10 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const exphbs  = require('express-handlebars');
+
 const wpi = require('node-wiring-pi');
+const sysfs = require('./lib/readExports.js');
+const AutoExport = require('./lib/autoExport.js');
 
 const routes = require('./routes/index');
 const heater = require('./routes/heater');
@@ -40,6 +43,10 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/heater', heater);
 
+//Export pins via sysfs if enabled with autoExport
+var gpiopins = [];
+gpiopins.push(heater.config.monitorPin, heater.config.controlPin);
+AutoExport(null, gpiopins);
 wpi.setup('sys');
 heater.config.wpi = wpi;
 
