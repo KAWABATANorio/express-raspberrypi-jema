@@ -4,23 +4,26 @@ const router = express.Router();
 config = {
   wpi: null,
   monitorPin: {
-    pin: 24,
+    pin: 23,
     inverted: true,
     duration: 0
   },
   controlPin: {
-    pin: 23,
+    pin: 24,
     inverted: false,
     duration: 1000
   }
 };
-router.config = null;
+router.config = config;
 
 function getStatus() {
-  return (config.monitorPin.inverted != true/*config.wpi.digitalRead(config.monitorPin.pin)*/);
+  return (config.monitorPin.inverted != config.wpi.digitalRead(config.monitorPin.pin));
 }
 function setStatus(on) {
-  // config.wpi.digitalWrite(config.controlPin.pin, on);
+  var monitorOn = (config.monitorPin.inverted != config.wpi.digitalRead(config.monitorPin.pin));
+  if (monitorOn != on) {
+    config.wpi.digitalWrite(config.controlPin.pin, !config.controlPin.inverted * 1);
+  }
 }
 
 /* GET users listing. */
@@ -31,7 +34,7 @@ router.get('/', (req, res) => {
 });
 
 router.put('/', (req, res) => {
-  setStatus(req.on);
+  setStatus(req.body.on == 'true' ? true : false);
   setTimeout(function () {
     res.send({on: getStatus()});    
   }, config.controlPin.duration);

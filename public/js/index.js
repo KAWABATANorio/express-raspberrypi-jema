@@ -8,7 +8,7 @@
         type: 'PUT',
         url: '/heater',
         data: {
-          on: on
+          on: !!on
         }
       }).done(function (result) {
         if (result.on) {
@@ -21,4 +21,19 @@
       });
     }, 0);
   });
+
+
+  $.ajax({
+    type: 'GET',
+    url: '/heater',
+  }).done(function (result) {
+    if (result.on) {
+      $('#floor_heater_off').parent().removeClass('focus active');
+      $('#floor_heater_on').parent().addClass('focus active');
+    } else {
+      $('#floor_heater_off').parent().addClass('focus active');
+      $('#floor_heater_on').parent().removeClass('focus active');
+    }
+  });
+  
 })();

@@ -8,7 +8,7 @@ const logger = require('morgan');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 const exphbs  = require('express-handlebars');
-// const wpi = require('node-wiring-pi');
+const wpi = require('node-wiring-pi');
 
 const routes = require('./routes/index');
 const heater = require('./routes/heater');
@@ -40,8 +40,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.use('/', routes);
 app.use('/heater', heater);
 
-// wpi.setup('sys');
-// heater.config.wpi = wpi;
+wpi.setup('sys');
+heater.config.wpi = wpi;
 
 /// catch 404 and forward to error handler
 app.use((req, res, next) => {
