@@ -7,12 +7,14 @@ config = {
     pin: 23,
     inverted: true,
     pull: "down",
+    enabled: true,
     duration: 0
   },
   controlPin: {
     pin: 24,
     inverted: false,
     pull: "down",
+    enabled: true,
     duration: 1000
   }
 };
