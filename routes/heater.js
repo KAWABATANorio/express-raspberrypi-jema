@@ -6,6 +6,7 @@ config = {
   monitorPin: {
     pin: 23,
     inverted: true,
+    mode: "in",
     pull: "down",
     enabled: true,
     duration: 0
@@ -13,6 +14,7 @@ config = {
   controlPin: {
     pin: 24,
     inverted: false,
+    mode: "out",
     pull: "down",
     enabled: true,
     duration: 1000
