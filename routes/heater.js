@@ -29,6 +29,9 @@ function setStatus(on) {
   var monitorOn = (config.monitorPin.inverted != config.wpi.digitalRead(config.monitorPin.pin));
   if (monitorOn != on) {
     config.wpi.digitalWrite(config.controlPin.pin, !config.controlPin.inverted * 1);
+    setTimeout(function () {
+      config.wpi.digitalWrite(config.controlPin.pin, config.controlPin.inverted * 1);
+    }, config.controlPin.duration);
   }
 }
 
@@ -43,7 +46,7 @@ router.put('/', (req, res) => {
   setStatus(req.body.on == 'true' ? true : false);
   setTimeout(function () {
     res.send({on: getStatus()});    
-  }, config.controlPin.duration);
+  }, config.controlPin.duration * 1.1);
 });
 
 module.exports = router;
