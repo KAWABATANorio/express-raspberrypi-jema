@@ -35,5 +35,15 @@
       $('#floor_heater_on').parent().removeClass('focus active');
     }
   });
+
+  $.ajax({
+    type: 'GET',
+    url: '/thermo',
+  }).done(function (result) {
+    if (result) {
+      $('.temperature').text(result.temperature);
+      $('.humidity').text(result.humidity);
+    }
+  });
   
 })();
